@@ -5,17 +5,18 @@
 #
 # Last modified: 24 July 2014.
 # By: Stijn Wouters.
-VERSION="0.1.0"
+PROG=`basename "$0"`
+VERSION="v0.1.0"
 
 BOLD=`tput bold`
 END=`tput sgr0`
 
 # usage information
 read -d '' USAGE <<EOF
-$0-${VERSION}
+${PROG}-${VERSION}
 
 usage:
-    $0 <keywords>
+    ${PROG} <keywords>
 
 option
     -h --help       Show this help message.
@@ -31,7 +32,7 @@ do
             shift
             ;;
         '-v' | '--version')
-            printf "$0-${VERSION}\n"
+            printf "${PROG}-${VERSION}\n"
             shift
             ;;
         -*)
