@@ -5,66 +5,89 @@
 #
 # Last modified: 24 July 2014.
 # By: Stijn Wouters.
-PROG=`basename "$0"`
+
+PROG=`basename $0`
 VERSION="v0.1.0"
 
 BOLD=`tput bold`
 END=`tput sgr0`
 
 # usage information
-read -d '' USAGE <<EOF
+read -d '' USAGE <<EOL
 ${PROG}-${VERSION}
 
-usage:
-    ${PROG} <keywords>
+ Copyright (C) 2014 Stijn Wouters <w.stijn@gmail.com>
+ Licensed under WTFPL. Do whatever the fuck you want.
 
-option
-    -h --help       Show this help message.
-    -v --version    Show version info.
-EOF
+Usage:
+    ${PROG} <keywords...>
+
+Options:
+    -h --help       Display this help message and exit
+    -v --version    Display version information and exit
+EOL
+
+function usage { printf "${USAGE}\n"; }
+function version { printf "${PROG}-${VERSION}\n"; }
 
 # parse command line
-while [[ -n "$1" ]];
+while getopts ':hv-:' OPTION;
 do
-    case "$1" in
-        '-h' | '--help')
-            printf "${USAGE}\n"
-            shift
+    case "${OPTION}" in
+        h)
+            usage
+            exit 0;
             ;;
-        '-v' | '--version')
-            printf "${PROG}-${VERSION}\n"
-            shift
+        v)
+            version
+            exit 0;
             ;;
-        -*)
-            printf "Unknown option $1\n"
-            exit 1
+        -)
+            # handle long options
+            case "${OPTARG}" in
+                help)
+                    usage
+                    exit 0;
+                    ;;
+                version)
+                    version
+                    exit 0
+                    ;;
+                *)
+                    printf "Unknown option --${OPTARG}\n" >&2
+                    exit 1
+                    ;;
+            esac
             ;;
         *)
-            [[ -n "${KEYWORDS}" ]] && KEYWORDS="${KEYWORDS} $1" || KEYWORDS="$1"
-            shift
+            printf "Unknown option -${OPTARG}\n" >&2
+            exit 1
             ;;
     esac
 done
 
-# exit earlier if no keywords provided
-[[ -z "${KEYWORDS}" ]] && exit 1
+if [[ $# -eq 0 ]]
+then
+    # no arguments provided, so quit early
+    printf "%s\n%s\n" 'Missing keyword(s)' '(Use --help for usage)' >&2
+    exit 1
+else
+    # get wiki (and remove leading/trailing quotes)
+    WIKI=`dig +short txt "$*".wp.dg.cx | sed -e 's/^"//' -e 's/"$//'`
 
-WIKI=`dig +short txt "${KEYWORDS}".wp.dg.cx`
+    # get source url (and remove it from summary)
+    SOURCE=`echo "${WIKI}" | grep -oe 'https\?://.*$' --color=never`
+    WIKI=`echo "${WIKI}" | sed -e 's/https\?:\/\/.*$//'`
+fi
 
-# remove quotes
-WIKI=`echo "${WIKI}" | sed -e 's/^"//' -e 's/"$//'`
-
-# get source url and remove from summary
-SOURCE=`echo "${WIKI}" | grep -oe 'https\?://.*$' --color=never`
-WIKI=`echo "${WIKI}" | sed -e 's/https\?:\/\/.*$//'`
-
-cat <<EOF
-${BOLD}Keywords:${END} ${KEYWORDS}
+# output summary
+cat <<EOL
+${BOLD}Query:${END} $*
 
 ${BOLD}Summary:${END}
 ${WIKI}
 
 ${BOLD}Source:${END} ${SOURCE}
-EOF
+EOL
 
 exit 0
