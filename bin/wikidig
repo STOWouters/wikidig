@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
 # wikidig
 # Script to fetch short summary about stuffs from Wikipedia.
