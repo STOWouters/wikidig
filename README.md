@@ -1,9 +1,9 @@
 # Wikidig
-Wikidig is a simple shell script to fetch a short summary about anything from
-Wikipedia and display it nicely on your terminal.
+Wikidig is a simple Shell script for fetching a short summary about anything
+from Wikipedia and display it nicely on your terminal.
 
-In the following example, any query will lead you to a summary about the best
-comedy group EVER.
+In the following example, the given queries will lead you to a summary about
+the best comedy group EVER.
 
     $ wikidig monty python      # plain
     $ wikidig 'monty python'    # single quotes
@@ -15,6 +15,7 @@ comedy group EVER.
 >
 >
 > **Summary:**
+>
 > Monty Python (sometimes known as The Pythons) was a British surreal comedy
 > group who created Monty Python's Flying Circus, a British television comedy
 > sketch show that first aired on the BBC on 5 October 1969. Forty-five
@@ -22,12 +23,17 @@ comedy group EVER.
 > television series into something larger in scope and impact, spawning
 > touring...
 >
+>
 > **Source:** http://en.wikipedia.org/wiki/Monty_Python
 
 If wikidig couldn't find any summary, the summary and source field will be left
 empty.
 
-## Install
+> Sometimes, the wikipedia DNS might be too busy, leaving you with an empty
+> summary, you can re-run the command again to ensure if there wasn't such a
+> summary with the given queries found.
+
+## Installation
 To install wikidig, you can use `make`, wich is by default already provided on
 most Linux systems. There's no build target, so you can immediately install it
 by passing:
