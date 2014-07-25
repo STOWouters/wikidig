@@ -45,7 +45,7 @@ Optionally, you can override several variables:
     ===========================================================================
     | EXE    | The name of the installed executable, useful if you have       |
     |        | already an executable called snippy and want to rename this    |
-    |        | executable to something different (such as snippet or so).     |
+    |        | executable to something different (such as qwiki or so).       |
     +--------+----------------------------------------------------------------+
     | PREFIX | The prefix for installation, this defaults to /usr/local/, so  |
     |        | the content of the bin/ directory will be then copied to       |
