@@ -24,19 +24,16 @@ Options:
     -v --version    Display version information and exit
 EOL
 
-function usage { printf "${USAGE}\n"; }
-function version { printf "${PROG}-${VERSION}\n"; }
-
 # parse command line
 while getopts ':hv-:' OPTION;
 do
     if [[ "${OPTION}" = h || "${OPTARG}" = help ]]
     then
-        usage
+        printf "${USAGE}\n"
         exit 0
     elif [[ "${OPTION}" = v || "${OPTARG}" = version ]]
     then
-        version
+        printf "${PROG}-${VERSION}\n"
         exit 0
     else
         case "${OPTION}" in
