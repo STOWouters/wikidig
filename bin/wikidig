@@ -3,7 +3,7 @@
 # wikidig
 # Script to fetch short summary about stuffs from Wikipedia.
 #
-# Last modified: 24 July 2014.
+# Last modified: 25 July 2014.
 # By: Stijn Wouters.
 
 PROG=`basename $0`
@@ -15,9 +15,6 @@ END=`tput sgr0`
 # usage information
 read -d '' USAGE <<EOL
 ${PROG}-${VERSION}
-
- Copyright (C) 2014 Stijn Wouters <w.stijn@gmail.com>
- Licensed under WTFPL. Do whatever the fuck you want.
 
 Usage:
     ${PROG} <keywords...>
@@ -33,37 +30,25 @@ function version { printf "${PROG}-${VERSION}\n"; }
 # parse command line
 while getopts ':hv-:' OPTION;
 do
-    case "${OPTION}" in
-        h)
-            usage
-            exit 0;
-            ;;
-        v)
-            version
-            exit 0;
-            ;;
-        -)
-            # handle long options
-            case "${OPTARG}" in
-                help)
-                    usage
-                    exit 0;
-                    ;;
-                version)
-                    version
-                    exit 0
-                    ;;
-                *)
-                    printf "Unknown option --${OPTARG}\n" >&2
-                    exit 1
-                    ;;
-            esac
-            ;;
-        *)
-            printf "Unknown option -${OPTARG}\n" >&2
-            exit 1
-            ;;
-    esac
+    if [[ "${OPTION}" = h || "${OPTARG}" = help ]]
+    then
+        usage
+        exit 0
+    elif [[ "${OPTION}" = v || "${OPTARG}" = version ]]
+    then
+        version
+        exit 0
+    else
+        case "${OPTION}" in
+            -)
+                printf "Unknown option --${OPTARG}\n" >&2
+                ;;
+            *)
+                printf "Unknown option -${OPTARG}\n" >&2
+                ;;
+        esac
+        exit 1
+    fi
 done
 
 if [[ $# -eq 0 ]]
