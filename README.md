@@ -35,7 +35,7 @@ empty.
 
 ## Installation
 To install wikidig, you can use `make`, wich is by default already provided on
-most Linux systems. There's no build target, so you can immediately install it
+most Unix systems. There's no build target, so you can immediately install it
 by passing:
 
     $ [sudo] make install
